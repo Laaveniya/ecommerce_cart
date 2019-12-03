@@ -1,26 +1,31 @@
 class OrderItem < ApplicationRecord
-  belongs_to :cart
+  belongs_to :shopping_cart
   belongs_to :product
   before_save :set_total_price
   before_save :set_unit_price
 
   def unit_price
-    if persisited?
-      unit_price
-    else
-      product.rate
-    end
-  end
-
-  def discount
-    Service::Checkout.new(self).process
+    product.rate
   end
 
   def total_price
-    (unit_price * quantity) - discount
+    (product.rate * quantity)
+  end
+
+  def total_price_after_discount
+    total_price - discount
+  end
+
+  def discount
+    service = ::Services::Discount.new(product, product_discount_rule.try(:multiples))
+    service.calculate_for(quantity)
   end
 
   private
+
+  def product_discount_rule
+    @product_discount_rule ||= product.product_discount_rules.last
+  end
 
   def set_total_price
     self[:total_price] = total_price

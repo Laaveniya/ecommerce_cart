@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
   resources :products
-  resources :carts do
-    collection do
-      put :add_items
-      get :checkout
-    end
+  resources :shopping_carts do
+    put :checkout, on: :member
   end
+
+  resources :order_items
 end

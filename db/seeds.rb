@@ -32,7 +32,6 @@ def sync_table!(klass, file_name)
   puts "Seeding #{file_name}"
   klass.transaction do
     CSV.foreach(csv_path(file_name), headers: true).each do |record|
-      byebug
       klass.where(record.to_hash).first_or_create
     end
   end

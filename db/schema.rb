@@ -24,8 +24,15 @@ ActiveRecord::Schema.define(version: 2019_12_02_034822) do
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.integer "quantity"
+    t.integer "quantity", default: 1
     t.float "total_price"
+    t.float "unit_price"
+    t.integer "product_id"
+    t.integer "shopping_cart_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+    t.index ["shopping_cart_id"], name: "index_order_items_on_shopping_cart_id"
   end
 
   create_table "product_discount_rules", force: :cascade do |t|

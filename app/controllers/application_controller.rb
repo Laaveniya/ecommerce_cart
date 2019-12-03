@@ -1,3 +1,5 @@
 class ApplicationController < ActionController::Base
-  include ApplicationHelper
+  include CurrentShoppingCart
+  before_action :set_shopping_cart
+
 end
