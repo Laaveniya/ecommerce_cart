@@ -59,6 +59,7 @@ module Services
     def cart_discount
       @cart_discount ||=
         ::CartDiscountRule
+        .active
         .where('min_value <= ?', total)
         .last
         .try(:flat_discount)

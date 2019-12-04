@@ -7,6 +7,7 @@ class Product < ApplicationRecord
   validates_presence_of :name
   validates_presence_of :rate
   validates_presence_of :code
+  validates_presence_of :brand
 
   private
 

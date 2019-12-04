@@ -2,11 +2,11 @@
 
 class ProductDiscountRule < ApplicationRecord
   belongs_to :product
+  validates_presence_of :start_date
+  validates_presence_of :end_date
+  validates_presence_of :multiples
+
   scope :active, lambda {
-    where(
-      'start_date >= :start_date, end_date <= :end_date',
-      start_date: Date.current,
-      end_date: Date.current
-    )
+    where('start_date <= ? AND end_date >= ?', Date.current, Date.current)
   }
 end

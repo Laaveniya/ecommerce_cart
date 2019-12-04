@@ -9,7 +9,7 @@ module Services
 
     def build
       products.each_with_object({}) do |product, hash|
-        product_discount = product.product_discount_rules.last
+        product_discount = product.product_discount_rules.active.last
         if product_discount.nil?
           hash[product.code] = PriceVariant.new(product.rate) && next
         end

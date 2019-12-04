@@ -25,7 +25,7 @@ class OrderItem < ApplicationRecord
   private
 
   def product_discount_rule
-    @product_discount_rule ||= product.product_discount_rules.last
+    @product_discount_rule ||= product.product_discount_rules.active.last
   end
 
   def set_total_price
