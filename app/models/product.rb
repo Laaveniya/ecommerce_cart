@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Product < ApplicationRecord
   before_destroy :not_reference_by_any_order_item
   has_many :product_discount_rules, dependent: :destroy
@@ -9,9 +11,9 @@ class Product < ApplicationRecord
   private
 
   def not_reference_by_any_order_item
-    unless order_items.empty?
-      errors.add(:base, 'order items present')
-      throw :abort
-    end
+    return if order_items.empty?
+
+    errors.add(:base, 'order items present')
+    throw :abort
   end
 end

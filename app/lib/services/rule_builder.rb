@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Services
   class RuleBuilder
     attr_accessor :order_items
@@ -8,12 +10,13 @@ module Services
     def build
       products.each_with_object({}) do |product, hash|
         product_discount = product.product_discount_rules.last
-        hash[product.code] = PriceVariant.new(product.rate) && next if product_discount.nil?
-        hash[product.code] =
-          PriceVariant.new(
-            product.rate,
-            Discount.new(product, product_discount.multiples)
-          )
+        if product_discount.nil?
+          hash[product.code] = PriceVariant.new(product.rate) && next
+        end
+        hash[product.code] = PriceVariant.new(
+          product.rate,
+          Discount.new(product, product_discount.multiples)
+        )
       end
     end
 

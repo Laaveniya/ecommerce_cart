@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Services
   class Checkout
     attr_reader :rules
@@ -56,7 +58,11 @@ module Services
 
     def cart_discount
       @cart_discount ||=
-        ::CartDiscountRule.where("min_value <= ?", total).last.try(:flat_discount).to_f
+        ::CartDiscountRule
+        .where('min_value <= ?', total)
+        .last
+        .try(:flat_discount)
+        .to_f
     end
 
     def order_items

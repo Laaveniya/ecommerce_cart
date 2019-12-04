@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrderItem < ApplicationRecord
   belongs_to :shopping_cart
   belongs_to :product
@@ -12,12 +14,11 @@ class OrderItem < ApplicationRecord
     (product.rate * quantity)
   end
 
-  def total_price_after_discount
-    total_price - discount
-  end
-
   def discount
-    service = ::Services::Discount.new(product, product_discount_rule.try(:multiples))
+    service = ::Services::Discount.new(
+      product,
+      product_discount_rule.try(:multiples)
+    )
     service.calculate_for(quantity)
   end
 

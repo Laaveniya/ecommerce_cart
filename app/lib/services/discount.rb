@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Services
   class Discount
     attr_reader :product, :multiples
@@ -13,7 +15,8 @@ module Services
     end
 
     def discounted_price(no_of_units)
-      (no_of_units / multiples).floor * offer_price + (no_of_units % multiples) * product.rate
+      (no_of_units / multiples).floor * offer_price +
+        (no_of_units % multiples) * product.rate
     end
 
     def total_price(no_of_units)

@@ -1,31 +1,32 @@
-class ProductsController < ApplicationController
+# frozen_string_literal: true
 
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+class ProductsController < ApplicationController
+  before_action :set_product, only: %i[show edit update destroy]
 
   def index
     @products = Product.all
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @product = Product.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @product = Product.new(product_params)
 
     respond_to do |format|
       if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
+        format.html { redirect_to @product, notice: 'Product created.' }
         format.json { render :show, status: :created, location: @product }
       else
         format.html { render :new }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @product.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -33,11 +34,13 @@ class ProductsController < ApplicationController
   def update
     respond_to do |format|
       if @product.update(product_params)
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
+        format.html { redirect_to @product, notice: 'Product was updated.' }
         format.json { render :show, status: :ok, location: @product }
       else
         format.html { render :edit }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @product.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -45,17 +48,18 @@ class ProductsController < ApplicationController
   def destroy
     @product.destroy
     respond_to do |format|
-      format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
+      format.html { redirect_to products_url, notice: 'Product was destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    def set_product
-      @product = Product.find(params[:id])
-    end
 
-    def product_params
-      params.require(:product).permit(:name, :brand, :rate)
-    end
+  def set_product
+    @product = Product.find(params[:id])
+  end
+
+  def product_params
+    params.require(:product).permit(:name, :brand, :rate)
+  end
 end

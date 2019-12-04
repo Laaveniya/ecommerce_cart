@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ShoppingCart < ApplicationRecord
   has_many :order_items, dependent: :destroy
 
@@ -9,17 +11,5 @@ class ShoppingCart < ApplicationRecord
       current_item = order_items.build(product_id: product.id)
     end
     current_item
-  end
-
-  def sub_total
-    order_items.collect(&:total_price).sum
-  end
-
-  def discount_price
-    Service::Discount.new(product, quantity).apply
-  end
-
-  def total_price
-    sub_total - discount_price
   end
 end
